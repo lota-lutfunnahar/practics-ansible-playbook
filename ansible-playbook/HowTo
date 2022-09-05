@@ -1,0 +1,37 @@
+#192.168.52.121 ansilble_ssh_pass=1234 ansible_become_pass=1234 
+# for individual
+
+202.181.14.35
+
+[all:vars]
+ansilble_ssh_pass=ansible
+ansible_become_pass=ansible
+
+
+192.168.52.122
+
+[all:vars]
+ansilble_ssh_pass=redhat
+ansible_become_pass=redhat
+
+
+
+
+host_key_checking = False
+
+sudo -u postgres psql
+
+ip : 192.168.10.233
+
+user : centos
+
+pass : arafat
+
+192.168.10.233
+
+[all:vars]
+ansilble_ssh_pass=arafat
+ansible_become_pass=arafat 
+
+
+178.62.225.101 ansible_ssh_private_key_file=~/.shh/ansikey ansible_user=root

@@ -1,0 +1,7 @@
+---
+# YAML documents begin with the document separator ---
+
+- name: Install curl Package
+  yum:
+    name: curl
+    state: present

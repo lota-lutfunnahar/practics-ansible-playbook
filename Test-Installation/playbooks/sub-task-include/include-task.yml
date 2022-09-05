@@ -1,0 +1,19 @@
+- hosts: all
+  user: ansible
+  become: True
+  gather_facts: False
+
+  tasks:
+    - name: ensure a list of packages installed
+      yum:
+        name: "{{ packages }}"
+      vars:
+        packages:
+        - gcc
+        - openssl-devel
+        - bzip2-devel
+        - libffi-devel
+      become: yes
+
+    - include_tasks: play1_task2.yml
+

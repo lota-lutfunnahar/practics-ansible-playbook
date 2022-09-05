@@ -1,0 +1,4 @@
+---
+python_version_default: 3.8.10
+python_ver_var: 3.8
+redis_version: 6.2.7

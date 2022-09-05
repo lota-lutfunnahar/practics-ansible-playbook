@@ -1,0 +1,28 @@
+- hosts: all
+  user: ansible
+  become: True
+
+  
+  tasks:
+    - name: Install nginx Package
+      yum:
+       name: nginx
+       state: latest
+
+    - name: Uninstall nginx Package
+      yum:
+       name: nginx
+       state: absent
+    
+    # - name: Make sure nginx service is running
+    #   service:
+    #    name: nginx
+    #    state: started
+    #    enabled: True
+    # - name: Copy index.html file to server
+    #   copy:
+    #    src: ../files/index.html
+    #    dest: /var/www/html/index.html
+    #    mode: 0644
+    #    owner: www-data
+    #    group: www-data

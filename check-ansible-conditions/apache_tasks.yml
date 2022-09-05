@@ -1,0 +1,15 @@
+- hosts: all
+  user: ansible
+  become: True
+    
+  tasks:
+    - name: install httpd 
+      yum: 
+        name: httpd
+        state: latest
+      notify: apache-restart
+    
+    - name: Uninstall httpd 
+      yum: 
+        name: httpd
+        state: absent

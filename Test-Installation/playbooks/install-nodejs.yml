@@ -1,0 +1,25 @@
+- hosts: all
+  user: ansible
+  become: True
+  gather_facts: False
+  vars_files:
+    - ../vars/default.yml
+  
+  tasks:
+    - name: Upgrade packages
+      yum:
+        name: "*"
+        state: latest
+    
+    - name: Install curl Package
+      yum:
+       name: curl
+       state: present
+
+    - name: Pre install process
+      shell: curl -sL https://rpm.nodesource.com/setup_10.x | sudo bash -
+
+    - name: Install nodejs 
+      yum:
+       name: nodejs
+       state: present

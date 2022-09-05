@@ -1,0 +1,10 @@
+
+
+
+202.181.14.35
+
+[all:vars]
+ansilble_ssh_pass=ansible
+ansible_become_pass=ansible
+ansible_python_interpreter=/usr/bin/python3
+

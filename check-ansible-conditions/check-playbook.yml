@@ -1,0 +1,6 @@
+---
+- import_playbook: apache_tasks.yml
+- import_playbook: infra-prepare.yml
+# - import_playbook: compute-okd.yml
+
+  

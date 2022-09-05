@@ -1,0 +1,32 @@
+- hosts: all
+  user: ansible
+  become: True
+  vars_files:
+    - vars/default.yml
+    
+  tasks:
+    - name: install httpd 
+      yum: 
+        name: httpd
+        state: latest
+      notify: apache-restart
+      
+
+    - name: run httpd 
+      service: 
+        name: httpd
+        state: started
+        
+    - name: Create document root
+      file:
+        path: "/var/www/{{ http_host }}"
+        state: directory
+        owner: "{{ app_user }}"
+        mode: '0755'
+
+    - name: Copy index test page 
+      copy: 
+        src: files/index.html
+        dest: "/var/www/{{ http_host }}/index.html"
+
+  

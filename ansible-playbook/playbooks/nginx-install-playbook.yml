@@ -1,0 +1,35 @@
+- hosts: all
+  user: ansible
+  become: True
+
+  tasks:
+
+    - name: Add epel-release repo
+      yum:
+        name: epel-release
+        state: present
+
+    - name: ensure nginx is at the latest version
+      yum: name=nginx state=latest
+
+    - name: Insert Index Page
+      template:
+        src: ../files/index.html
+        dest: /usr/share/nginx/html/index.html
+        mode: '0644'
+
+    - name: start nginx
+      service:
+          name: nginx
+          state: started
+      become: yes
+    
+    - name: Install curl Package
+      yum:
+       name: curl
+       state: present
+    
+    - name: check nginx use curl
+      shell: curl http://localhost:80
+
+  
