@@ -1,0 +1,153 @@
+- hosts: all
+  user: ansible
+  become: True
+  gather_facts: no
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    roles:
+      - { role: python, tags: [ init, python, common, addusers] }
+
+  vars_files:
+    - ../../vars/db.yml
+
+  pre_tasks:
+  - name: Upgrade all packages on servers
+    yum:
+      name: '*'
+      state: latest
+
+  - name: "Install packages"
+    yum : "name={{ item }} state=present"
+    with_items:
+      - python3-psycopg2
+
+  tasks:
+
+  # - name: Add Postgres 14 repo
+  #   shell: |
+  #     yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+  #   args:
+  #     warn: no
+
+  # - name: Disable built-in PostgreSQL module
+  #   shell: |
+  #     yum -qy module disable postgresql
+  #   args:
+  #     warn: no
+
+  - name: Install postgresql
+    yum:
+      name:
+        - postgresql14-server
+        - postgresql14-contrib
+    notify:
+      - Enable Postgresql
+
+  # - name: Initialize the PostgreSQL database
+  #   shell: |
+  #     /usr/pgsql-14/bin/postgresql-14-setup initdb # work for condition
+
+  - name: Ensure PostgreSQL is listening on *
+    lineinfile:
+      dest: /var/lib/pgsql/14/data/postgresql.conf
+      regexp: '^listen_addresses\s*='
+      line: "listen_addresses='*'"
+      state: present
+    notify: Restart Postgresql
+
+  - name: Add new configuration to "pg_hba.conf"
+    blockinfile:
+      dest: /var/lib/pgsql/14/data/pg_hba.conf
+      block: |
+        host    all             all             0.0.0.0/0                md5
+        host    all             all             ::/0                     md5
+    notify: Restart Postgresql
+
+  - name: Change peer identification to trust
+    shell: /bin/sed -i '/^local/s/peer/trust/' /var/lib/pgsql/14/data/pg_hba.conf
+    args:
+      warn: no
+    notify: Restart Postgresql
+
+  - name: Start Postgresql server
+    systemd:
+      name: postgresql-14
+      state: started
+    notify:
+      - Enable Postgresql
+
+  # - name: postgresql | ensure database "{{ timescaledb_database_name }}" exists
+  #   become: true
+  #   become_user: "{{ timescaledb_database_user }}"
+  #   postgresql_db:
+  #     name: "{{ timescaledb_database_name }}"
+  #     owner: "{{ timescaledb_database_user }}"
+  #     state: present
+  #   tags: configure
+
+  - name: "Create app database"
+    postgresql_db:
+      state: present
+      name: "{{ db_name }}"
+    become: yes
+    become_user: postgres
+
+  
+  - name: "Create db user"
+    postgresql_user:
+      state: present
+      name: "{{ db_user }}"
+      password: "{{ db_password }}"
+    become: yes
+    become_user: postgres
+
+  - name: "Grant db user access to app db"
+    postgresql_privs:
+      type: database
+      database: "{{ db_name }}"
+      roles: "{{ db_user }}"
+      grant_option: no
+      privs: all
+    become: yes
+    become_user: postgres
+
+  # - name: postgresql | configure password for postgres user
+  #   become: true
+  #   become_user: "{{ timescaledb_database_user }}"
+  #   postgresql_user:
+  #     name: "{{ timescaledb_database_user }}"
+  #     password: "{{ timescaledb_database_password }}"
+  #     state: present
+  #   tags: configure
+
+  # - name: Create a Superuser PostgreSQL database user
+  #   become: yes
+  #   become_user: postgres
+  #   postgresql_user:
+  #     name: '{{ db_user }}'
+  #     password: '{{ db_password }}'
+  #     role_attr_flags: CREATEDB,SUPERUSER,CREATEROLE
+  #     encrypted: yes
+  #     state: present
+
+  handlers:
+    - name: Restart Postgresql
+      systemd:
+        name: postgresql-14
+        state: restarted
+
+    - name: Start Postgresql
+      systemd:
+        name: postgresql-14
+        state: started
+
+    - name: Stop Postgresql
+      systemd:
+        name: postgresql-14
+        state: stopped
+
+    - name: Enable Postgresql
+      systemd:
+        name: postgresql-14
+        enabled: yes

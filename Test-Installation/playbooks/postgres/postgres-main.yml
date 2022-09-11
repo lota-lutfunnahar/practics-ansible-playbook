@@ -1,0 +1,3 @@
+---
+- import_playbook: install-postgres.yml
+# - import_playbook: install-timescaledb.yml

@@ -1,7 +1,7 @@
 
 
 
-202.181.14.35
+192.168.10.238
 
 [all:vars]
 ansilble_ssh_pass=ansible

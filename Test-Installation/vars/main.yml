@@ -1,0 +1,9 @@
+---
+# vars file for postgresql
+
+postgresql_dependencies:
+  - postgresql-14
+  - postgresql-server-dev-14
+
+timescaledb_dependencies:
+  - timescaledb-postgresql-14
