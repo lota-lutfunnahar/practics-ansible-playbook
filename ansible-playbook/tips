@@ -1,0 +1,86 @@
+# Install basic packages
+#
+#
+---
+
+
+
+  - name: install packages
+     hosts: ansible_clients
+     remote_user: ansible
+     become: true
+
+
+
+  - name: install packages
+     yum:
+        name: "{{ item }}"
+        state: latest
+     loop:
+        - net-tools
+        - vim
+        - wget
+        - epel-release
+        - mlocate
+        - ntpdate
+        - zabbix-agent
+        - sysstat
+
+
+# add user to sudoers
+#
+#
+
+
+
+        - name: Inserting a line after a pattern in Ansible example
+           lineinfile:
+             path: /etc/sudoers
+             line: '{{item}}'
+             insertafter: ^root(\s+)ALL=\(ALL\)(\s+)ALL
+             validate: visudo -cf %s
+             state: present
+             backup: yes
+           with_items:
+            - '{{ sudo-user-2 }}    ALL=(ALL)       ALL'
+
+
+#sshd
+       - name: Banner
+          replace:
+            path: /etc/ssh/sshd_config
+            regexp: '#Banner none'
+            replace: 'Banner          /etc/ssh/hidden.txt'
+            backup: yes
+            validate: sshd -t -f %s
+
+
+
+
+        - name: SSH AllowUsers
+          lineinfile:
+            path: /etc/ssh/sshd_config
+            line: 'AllowUsers centos {{ username1 }} {{ username2 }} {{ username3 }}'
+            insertafter: 'Banner          /etc/ssh/hidden.txt'
+            backup: yes
+            validate: sshd -t -f %s
+      
+# varriable
+    vars_prompt:
+        - name: username1
+          prompt: Please enter username1
+          private: no
+
+
+
+       - name: password1
+          prompt: Please enter password1
+          private: yes
+          encrypt: sha512_crypt
+          confirm: yes
+
+
+
+       - name: username2
+          prompt: Please enter username2
+          private: no
