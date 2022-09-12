@@ -6,4 +6,4 @@ postgresql_dependencies:
   - postgresql-server-dev-14
 
 timescaledb_dependencies:
-  - timescaledb-postgresql-14
+  - timescaledb-2-postgresql-14
