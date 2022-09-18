@@ -1,0 +1,68 @@
+- hosts: all
+  user: ansible
+  become: True
+  gather_facts: False
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    roles:
+      - { role: python, tags: [ init, python, common, addusers] }
+
+  vars_files:
+    - ../vars/main.yml
+    - ../vars/db.yml
+    - ../vars/default.yml
+  
+  # vars_prompt: 
+  # - name: "githubuser" 
+  #   prompt: "Enter your github username" 
+  #   private: no 
+      
+  # - name: "githubpassword" 
+  #   prompt: "Enter your github password" 
+  #   private: yes 
+
+  pre_tasks:
+  # - name: Upgrade all packages on servers
+  #   yum:
+  #     name: '*'
+  #     state: latest
+
+  # - name: "Install packages"
+  #   yum : "name={{ item }} state=present"
+  #   with_items:
+  #     - python3-psycopg2
+
+  tasks:
+    # - include_tasks: 01-preinstall.yml
+    # - include_tasks: 02-python-install.yml
+    # - include_tasks: 03-redis-install.yml
+    # - include_tasks: 04-nodejs.yml
+    # - include_tasks: 05-nginx.yml
+    # - include_tasks: 07-postgres.yml
+    # - include_tasks: 08-timescaledb.yml
+    - include_tasks: 09-git-process.yml
+
+  handlers:
+    - name: restart_redis
+      shell: /etc/init.d/redis stop && /etc/init.d/redis start
+    
+    - name: Restart Postgresql
+      systemd:
+        name: postgresql-14
+        state: restarted
+
+    - name: Start Postgresql
+      systemd:
+        name: postgresql-14
+        state: started
+
+    - name: Stop Postgresql
+      systemd:
+        name: postgresql-14
+        state: stopped
+
+    - name: Enable Postgresql
+      systemd:
+        name: postgresql-14
+        enabled: yes

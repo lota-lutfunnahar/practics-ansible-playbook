@@ -1,0 +1,6 @@
+db_user: postgres
+db_password: postgres
+db_name: testdb
+timescaledb_database_user: postgres
+timescaledb_database_password: postgres
+timescaledb_database_name: testdb

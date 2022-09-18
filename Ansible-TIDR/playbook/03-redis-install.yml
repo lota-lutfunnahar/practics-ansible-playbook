@@ -1,0 +1,38 @@
+---
+- name: Install redis deps
+  yum: name={{item}} state=present
+  with_items:
+    - make
+    - gcc
+    - wget
+  tags: redis
+
+- name: download redis source
+  shell: wget -O - http://download.redis.io/releases/redis-{{redis_version}}.tar.gz | tar -xz -C /tmp creates=/tmp/redis-{{redis_version}}
+  tags: redis
+
+- name: install redis
+  shell: make chdir=/tmp/redis-{{redis_version}} creates=/tmp/redis-{{redis_version}}/src/redis-server
+  tags: redis
+
+- name: move compiled redis binaries
+  shell: cp -f {{item}} /usr/local/bin chdir=/tmp/redis-{{redis_version}}/src
+  with_items:
+  - redis-cli
+  - redis-server
+  - redis-benchmark
+  tags: redis
+
+- name: configure redis-server
+  template: src=../files/redis.conf.j2 dest=/etc/redis.conf
+  notify:
+  - restart_redis
+  tags: redis
+
+- name: make redis a service
+  template: src=../files/redis_init_script.j2 dest=/etc/init.d/redis mode=755
+  tags: redis
+
+- name: run redis
+  shell: /etc/init.d/redis start creates=/var/run/redis.pid
+  tags: redis

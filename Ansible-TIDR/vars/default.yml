@@ -1,0 +1,8 @@
+---
+python_version_default: 3.8.10
+python_ver_var: 3.8
+redis_version: 6.2.7
+githubuser: l.nahar@pipelinesecurity.net
+githubpassword: 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 
+WHOIS_XML_API_KEY: at_wu8UWwvebrAh8sY4SkoD2kss1KlNJ
+VIRUS_TOTAL_API_KEY: 753a32bef9a91abed5900f0b48952cd i45b48f7864f78f15206ae92a08d95e84324
