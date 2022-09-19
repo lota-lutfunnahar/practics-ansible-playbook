@@ -1,0 +1,15 @@
+[Unit]
+Description=ThreatIDR Celery Service
+After=network.target
+
+[Service]
+User=root
+Group=root
+
+#EnvironmentFile=/etc/conf.d/celery
+WorkingDirectory=/usr/share/nginx/html/threatidr
+Environment=/usr/share/nginx/html/threatidr/.env
+ExecStart=/root/.local/share/virtualenvs/threatidr-Doz5cKpM/bin/celery -A src.tasks.celery_worker.celery worker --loglevel=INFO
+
+[Install]
+WantedBy=multi-user.target

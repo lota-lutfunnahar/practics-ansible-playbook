@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve ThreatIDR
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/usr/share/nginx/html/threatidr
+Environment=/usr/share/nginx/html/threatidr/.env
+ExecStart=/root/.local/share/virtualenvs/threatidr-juRN4hCe/bin/gunicorn autoapp:app -b :5000 -w 1 --worker-class eventlet --max-requests=5000 --max-requests-jitter=500 --log-level=info
+
+[Install]
+WantedBy=multi-user.target

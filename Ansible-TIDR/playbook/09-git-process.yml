@@ -1,12 +1,12 @@
 ---
-# - name: Install git 
-#   yum:
-#     name: git 
-#     state: present
-#   become: yes
+- name: Install git 
+  yum:
+    name: git 
+    state: present
+  become: yes
 
-# - name: Check version
-#   shell: git --version
+- name: Check version
+  shell: git --version
 
 - name : check ThreatIDR directory
   stat:
@@ -39,49 +39,7 @@
   - mkdir users
   when: not threadidr_upload.stat.exists
 
-- name: ThreatIDR .env prepare 
-  command: chdir=/usr/share/nginx/html/threatidr {{ item }}
-  with_items:
-  - cp .env.example .env
-  when: threadidr_location.stat.exists
 
-- name: Replace  DATABASE_URL line in .env file
-  lineinfile:
-    path: /usr/share/nginx/html/threatidr/.env
-    search_string: 'DATABASE_URL'
-    line: DATABASE_URL=postgresql+psycopg2://{{db_user}}:{{db_password}}@localhost/{{db_name}}
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Replace WHOIS_XML_API_KEY line in .env file
-  lineinfile:
-    path: /usr/share/nginx/html/threatidr/.env
-    search_string: 'WHOIS_XML_API_KEY'
-    line: WHOIS_XML_API_KEY={{ WHOIS_XML_API_KEY }}
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: Replace VIRUS_TOTAL_API_KEY line in .env file
-  lineinfile:
-    path: /usr/share/nginx/html/threatidr/.env
-    search_string: 'VIRUS_TOTAL_API_KEY'
-    line: VIRUS_TOTAL_API_KEY={{ VIRUS_TOTAL_API_KEY }}
-    owner: root
-    group: root
-    mode: '0644'
-
-- name: ThreatIDR Install pipenv
-  shell: pip3 install pipenv
-
-- name: ThreatIDR pipenv intregation process
-  command: chdir=/usr/share/nginx/html/threatidr/ {{ item }}
-  with_items:
-  - pipenv install
-  - pip3 install -r requirements.txt
-  - npm install
-  when: threadidr_location.stat.exists
 
 
 

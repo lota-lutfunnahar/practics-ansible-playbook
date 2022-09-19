@@ -13,9 +13,15 @@
   notify:
     - Enable Postgresql
 
-# - name: Initialize the PostgreSQL database
-#   shell: |
-#     /usr/pgsql-14/bin/postgresql-14-setup initdb # work for condition
+- name : check ThreatIDR directory
+  stat:
+    path: /var/lib/pgsql/14/data
+  register: postgres_data_location
+
+- name: Initialize the PostgreSQL database
+  shell: |
+    /usr/pgsql-14/bin/postgresql-14-setup initdb # work for condition
+  when: not postgres_data_location.stat.exists
 
 - name: Ensure PostgreSQL is listening on *
   lineinfile:

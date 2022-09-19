@@ -1,0 +1,28 @@
+---
+- name: Copy threatidr.service files to server
+  template:
+    src: ../files/service/threatidr.service
+    dest: /etc/systemd/system/threatidr.service
+    mode: '0644'
+  
+- name: Copy threatidr_celery.service files to server
+  template:
+    src: ../files/service/threatidr_celery.service
+    dest: /etc/systemd/system/threatidr_celery.service
+    mode: '0644'
+  
+- name: Copy threatidr_celerybeat.service files to server
+  template:
+    src: ../files/service/threatidr_celerybeat.service
+    dest: /etc/systemd/system/threatidr_celerybeat.service
+    mode: '0644'
+
+- name: Enable & run threatidr services
+  command: chdir=/etc/systemd/system/ {{ item }}
+  with_items:
+  - systemctl enable threatidr
+  - systemctl start threatidr
+  - systemctl enable threatidr_celery
+  - systemctl start threatidr_celery
+  - systemctl enable threatidr_celerybeat
+  - systemctl start threatidr_celerybeat

@@ -1,0 +1,27 @@
+[Unit]
+
+Description=ThreatIDR Celery Beat Service
+
+After=network.target
+
+[Service]
+
+Type=simple
+
+User=root
+
+Group=root
+
+#EnvironmentFile=/etc/conf.d/celery
+
+WorkingDirectory=/usr/share/nginx/html/threatidr
+
+Environment=/usr/share/nginx/html/threatidr/.env
+
+ExecStart=/root/.local/share/virtualenvs/threatidr-juRN4hCe/bin/celery -A src.tasks.celery_worker.celery beat --schedule=/tmp/celerybeat-schedule --loglevel=INFO --pidfile=/tmp/celerybeat.pid
+
+Restart=always
+
+[Install]
+
+WantedBy=multi-user.target
