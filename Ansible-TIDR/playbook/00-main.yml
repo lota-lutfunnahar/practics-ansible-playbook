@@ -34,7 +34,7 @@
     - include_tasks: 08-timescaledb.yml
     - include_tasks: 09-git-process.yml
     - include_tasks: 10-threatidr-env-prep.yml
-    - include_tasks: 11-systemd-celery.yml
+    - include_tasks: 11-systemd-services.yml
 
   handlers:
     - name: restart_redis

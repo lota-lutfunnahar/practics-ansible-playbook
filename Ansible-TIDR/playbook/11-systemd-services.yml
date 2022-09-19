@@ -1,4 +1,10 @@
 ---
+- name: Copy nginx.conf files to server
+  template:
+    src: ../files/service/default-nginx.conf
+    dest: /etc/nginx/nginx.conf
+    mode: '0644'
+
 - name: Copy threatidr.service files to server
   template:
     src: ../files/service/threatidr.service
@@ -22,7 +28,25 @@
   with_items:
   - systemctl enable threatidr
   - systemctl start threatidr
+  - systemctl status threatidr
   - systemctl enable threatidr_celery
   - systemctl start threatidr_celery
+  - systemctl status threatidr_celery
   - systemctl enable threatidr_celerybeat
   - systemctl start threatidr_celerybeat
+  - systemctl status threatidr_celerybeat
+  - systemctl enable nginx
+  - systemctl start nginx
+  - systemctl status nginx
+
+- name: Restart & reload threatidr services
+  command: chdir=/etc/systemd/system/ {{ item }}
+  with_items:
+  - systemctl restart threatidr
+  - systemctl status threatidr
+  - systemctl restart threatidr_celery
+  - systemctl status threatidr_celery
+  - systemctl restart threatidr_celerybeat
+  - systemctl status threatidr_celerybeat
+  - systemctl restart nginx
+  - systemctl status nginx

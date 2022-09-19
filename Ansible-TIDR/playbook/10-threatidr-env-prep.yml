@@ -42,11 +42,13 @@
 - name: ThreatIDR pipenv intregation process
   command: chdir=/usr/share/nginx/html/threatidr/ {{ item }}
   with_items:
-  - pip3 install -r requirements.txt
-  - npm install
-  - flask db upgrade
-  - flask create-upload-dirs
-  - flask create-admin-user
-  - flask update-admin-password {{ TIDR_ADMIN_PASSWORD }}
-  - npm run build
+  - pipenv run bash -c "pipenv install"
+  - pipenv run bash -c "pip install -r requirements.txt" 
+  - pipenv run bash -c "pip install celery"
+  - pipenv run bash -c "npm install"
+  - pipenv run bash -c "flask db upgrade"
+  - pipenv run bash -c "flask create-upload-dirs"
+  - pipenv run bash -c "flask create-admin-user"
+  - pipenv run bash -c "flask update-admin-password {{ TIDR_ADMIN_PASSWORD }}"
+  - pipenv run bash -c "npm run build"
   when: threadidr_location.stat.exists
