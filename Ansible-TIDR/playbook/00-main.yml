@@ -14,27 +14,29 @@
     - ../vars/default.yml
   
   pre_tasks:
-  - name: Upgrade all packages on servers
-    yum:
-      name: '*'
-      state: latest
+  # - name: Upgrade all packages on servers
+  #   yum:
+  #     name: '*'
+  #     state: latest
 
-  - name: "Install packages"
-    yum : "name={{ item }} state=present"
-    with_items:
-      - python3-psycopg2
+  # - name: "Install packages"
+  #   yum : "name={{ item }} state=present"
+  #   with_items:
+  #     - python3-psycopg2
 
   tasks:
-    - include_tasks: 01-preinstall.yml
-    - include_tasks: 02-python-install.yml
-    - include_tasks: 03-redis-install.yml
-    - include_tasks: 04-nodejs.yml
-    - include_tasks: 05-nginx.yml
-    - include_tasks: 07-postgres.yml
-    - include_tasks: 08-timescaledb.yml
-    - include_tasks: 09-git-process.yml
-    - include_tasks: 10-threatidr-env-prep.yml
-    - include_tasks: 11-systemd-services.yml
+    # - include_tasks: 01-pre-stage.yml
+    # - include_tasks: 02-python-install.yml
+    # - include_tasks: 03-redis-install.yml
+    # - include_tasks: 04-nodejs.yml
+    # - include_tasks: 05-nginx.yml
+    # - include_tasks: 07-postgres.yml
+    # - include_tasks: 08-timescaledb.yml
+    # - include_tasks: 09-git-process.yml
+    # - include_tasks: 10-threatidr-env-prep.yml
+    # - include_tasks: 11-systemd-services.yml
+    - include_tasks: 12-log-stash-config.yml
+    # - include_tasks: 13-filebeat.yml
 
   handlers:
     - name: restart_redis

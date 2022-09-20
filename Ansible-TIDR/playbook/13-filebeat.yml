@@ -1,0 +1,27 @@
+---
+- name: Install filebeat in centos
+  yum:
+    name: filebeat
+    state: present
+  become: yes
+
+- name: Copy filebeat file 
+  template:
+    src: ../files/filebeat.yml
+    dest: /etc/filebeat/
+    mode: '0644' 
+
+  
+- name: Restart & reload filebeat services
+  command: chdir=/etc/filebeat/ {{ item }}
+  with_items:
+  - systemctl enable filebeat
+  - systemctl start filebeat
+  - systemctl status filebeat
+ 
+
+# - name: Start of filebeat services
+#   shell: systemctl start filebeat
+
+# - name: Status of filebeat services
+#   shell: systemctl status filebeat

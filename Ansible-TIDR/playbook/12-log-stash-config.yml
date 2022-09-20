@@ -1,0 +1,56 @@
+---
+# - name: Get elastic repo
+#   shell: rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+# - name: Copy logstash.txt files to server
+#   template:
+#     src: ../files/logstash.txt
+#     dest: /etc/yum.repos.d/logstash.repo
+#     mode: '0644'
+
+# - name: Logstash install
+#   shell: yum install --assumeyes logstash
+
+# - name: Start logstash services
+#   shell: systemctl start logstash
+
+# - name: Logstash JDBC implement
+#   command: chdir=/usr/share/logstash/bin/ {{ item }}
+#   with_items:
+#   - ./logstash-plugin install logstash-output-jdbc
+#   - wget https://jdbc.postgresql.org/download/postgresql-42.2.18.jar --no-check-certificate
+#   - mv postgresql-42.2.18.jar /usr/share/logstash/logstash-core/lib/jars/
+
+
+- name: Copy file of output.conf to "/etc/logstash/conf.d/99-output.conf"
+  template:
+    src: ../files/logstash/output.conf
+    dest: /etc/logstash/conf.d/output.conf
+    mode: '0644'
+
+- name : Test and running replace 
+  script: ../files/insert.sh {{db_password}}
+
+- name: Copy file of cctld.conf to "/etc/logstash/conf.d/03-cctld.conf"
+  template:
+    src: ../files/logstash/cctld.conf
+    dest: /etc/logstash/conf.d/03-cctld.conf
+    mode: '0644'
+
+- name: Copy file of logstash.conf to "/etc/logstash/conf.d/01-logstash.conf"
+  template:
+    src: ../files/logstash/cctld.conf
+    dest: /etc/logstash/conf.d/01-logstash.conf
+    mode: '0644'
+
+- name: Copy file of tld.conf to "/etc/logtash/conf.d/02-tld.conf"
+  template:
+    src: ../files/logstash/tld.conf
+    dest: /etc/logstash/conf.d/02-tld.conf
+    mode: '0644'
+  
+- name: Restart & reload logstash services
+  shell: systemctl restart logstash
+
+- name: Status of logstash services
+  shell: systemctl status logstash

@@ -1,0 +1,22 @@
+---
+# - name: Ensure a list of packages installed
+#   yum:
+#     name: "{{ packages }}"
+#   vars:
+#     packages:
+#     - gcc
+#     - openssl-devel
+#     - bzip2-devel
+#     - libffi-devel
+#   become: yes 
+
+- name: Set Host name 
+  blockinfile:
+    dest: /etc/hostname
+    block: |
+      {{ Host_IP }}        {{ Domain }}        {{ Host_Name }}
+
+# - name: Upgrade all packages on servers
+#   yum:
+#     name: '*'
+#     state: latest
