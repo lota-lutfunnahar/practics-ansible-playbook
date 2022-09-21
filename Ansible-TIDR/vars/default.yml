@@ -7,6 +7,12 @@ githubpassword: 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
 WHOIS_XML_API_KEY: at_wu8UWwvebrAh8sY4SkoD2kss1KlNJ
 VIRUS_TOTAL_API_KEY: 753a32bef9a91abed5900f0b48952cd i45b48f7864f78f15206ae92a08d95e84324
 TIDR_ADMIN_PASSWORD: lota1234
+
+# Host information #
 Host_Name: hostname
 Host_IP: 192.168.10.229
 Domain: Domain
+
+# DNS Information #
+allow_ip: 103.164.90.114
+listen_port_ip: 192.168.10.229

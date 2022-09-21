@@ -84,3 +84,9 @@
        - name: username2
           prompt: Please enter username2
           private: no
+
+
+Note: before named service run check SElinux enbaled or disable 
+
+sestatus
+sudo setenforce 0

@@ -1,0 +1,32 @@
+---
+- name: Install bind and bind dependency 
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+  - bind
+  - bind-utils
+  become: yes
+
+- name: DNS config
+  shell: chmod +x ../files/dns-config/dns.sh
+
+- name: Copy file of dns_file.txt to "/root/dns_file.txt"
+  template:
+    src: ../files/dns-config/dns_file.txt
+    dest: /root/dns_file.txt
+    mode: '0644'
+
+- name : Test and running dns.sh 
+  script: ../files/dns-config/dns.sh {{allow_ip}} {{listen_port_ip}}
+
+- name: Restart & reload named services
+  command: chdir=/root {{ item }}
+  with_items:
+  - mv named.conf  /etc/named.conf
+  - sestatus
+  - setenforce 0
+  - sestatus
+  - systemctl enable named
+  - systemctl start named
+  - systemctl status named

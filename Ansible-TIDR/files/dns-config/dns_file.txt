@@ -1,0 +1,242 @@
+
+
+
+response-policy {
+zone "adware.edit.host.dtq" ;
+zone "bad-nameservers.host.dtq" ;
+zone "bad-nameservers.ip.dtq" ;
+zone "badrep.edit.host.dtq" ;
+zone "badrep.hacked.host.dtq" ;
+zone "bogons.ip.dtq" ;
+zone "botnetcc.hacked.host.dtq" ;
+zone "botnetcc.hacked.ip.dtq" ;
+zone "botnetcc.host.dtq" ;
+zone "botnetcc.ip.dtq" ;
+zone "botnet.edit.host.dtq" ;
+zone "coinblocker.srv" ;
+zone "dga.host.dtq" ;
+zone "drop.ip.dtq" ;
+zone "malware.edit.host.dtq" ;
+zone "malware.hacked.host.dtq" ;
+zone "phish.edit.host.dtq" ;
+zone "phish.hacked.host.dtq" ;
+zone "porn.host.srv" ;
+zone "torblock.srv" ;
+};
+
+};
+
+logging {
+
+channel null {
+null; };
+
+channel bindlog {
+          file "/var/named/bind.log" versions unlimited size 100m;
+          print-time yes;
+          print-category yes;
+          print-severity yes;
+          severity info;
+};
+
+channel rpzlog {
+        file "/var/named/rpz.log" versions unlimited size 100m;
+        print-time yes;
+        print-category yes;
+        print-severity yes;
+        severity info;
+};
+
+channel querylog {
+          file "/var/named/query.log" versions unlimited size 100m;
+          print-time yes;
+          print-category yes;
+          print-severity yes;
+          severity info;
+};
+
+category default { bindlog; };
+category general { bindlog; };
+category database { null; };
+category config { bindlog; };
+category resolver { null; };
+category xfer-in { bindlog; };
+category xfer-out { bindlog; };
+category notify { null; };
+category client { null; };
+category unmatched { null; };
+category network { bindlog; };
+category update { bindlog; };
+category update-security { bindlog; };
+category queries { querylog; };
+category dispatch { null; };
+category lame-servers { null; };
+category delegation-only { bindlog; };
+category edns-disabled { null; };
+category rpz { rpzlog; };
+};
+
+zone "adware.host.dtq" {
+type slave;
+file "adware.host.dtq";
+masters {18.139.141.106; };
+};
+
+zone "bad-nameservers.ip.dtq" {
+type slave;
+file "bad-nameservers.ip.dtq";
+masters {18.139.141.106; };
+};
+
+zone "bad-nameservers.host.dtq" {
+type slave;
+file "bad-nameservers.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "bogons.ip.dtq" {
+type slave;
+file "bogons.ip.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+zone "botnetcc.host.dtq" {
+type slave;
+file "botnetcc.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "botnetcc.ip.dtq" {
+type slave;
+file "botnetcc.ip.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "dga.host.dtq" {
+type slave;
+ixfr-from-differences no;
+#max-records 5000;
+file "dga.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "phish.host.dtq" {
+type slave;
+file "phish.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "botnet.edit.host.dtq" {
+type slave;
+file "botnet.edit.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "malware.edit.host.dtq" {
+type slave;
+file "malware.edit.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "phish.edit.host.dtq" {
+type slave;
+file "phish.edit.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "drop.ip.dtq" {
+type slave;
+file "drop.ip.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "malware.hacked.host.dtq" {
+type slave;
+file "malware.hacked.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "badrep.hacked.host.dtq" {
+type slave;
+file "badrep.hacked.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "coinblocker.srv" {
+type slave;
+file "coinblocker.srv";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "torblock.srv" {
+type slave;
+file "torblock.srv";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "phish.hacked.host.dtq" {
+type slave;
+file "phish.hacked.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "botnetcc.hacked.host.dtq" {
+type slave;
+file "botnetcc.hacked.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "botnetcc.hacked.ip.dtq" {
+type slave;
+file "botnetcc.hacked.ip.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "badrep.edit.host.dtq" {
+type slave;
+file "badrep.edit.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "botnetcc.edit.host.dtq" {
+type slave;
+file "botnetcc.edit.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "adware.edit.host.dtq" {
+type slave;
+file "adware.edit.host.dtq";
+masters {18.139.141.106; };
+masterfile-format text;
+};
+
+zone "porn.host.srv" {
+type slave;
+file "porn.host.srv";
+masters {18.139.141.106; };
+max-records 5000;
+masterfile-format text;
+};
+
+
+include "/etc/named.rfc1912.zones";
+include "/etc/named.root.key";
