@@ -1,0 +1,19 @@
+# Install basic packages
+#
+#
+
+   - name: installng initial packages...
+     yum:
+        name: "{{ item }}"
+        state: latest
+     loop:
+        - net-tools
+        - vim
+        - nano
+        - wget
+        - epel-release
+        - mlocate
+#        - ntpdate              # doesnt work for rocky
+        - zabbix-agent
+        - sysstat
+

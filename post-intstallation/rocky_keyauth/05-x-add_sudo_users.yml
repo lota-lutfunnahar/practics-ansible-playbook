@@ -1,0 +1,40 @@
+# adding users to sudoers
+#
+#
+
+         - name: Adding {{ sudo_user_1 }} to Sudoers...
+           lineinfile:
+             path: /etc/sudoers
+             line: '{{ item }}'
+             insertafter: ^root(\s+)ALL=\(ALL\)(\s+)ALL
+             validate: visudo -cf %s
+             state: present
+             backup: yes
+           with_items:
+            - '{{ sudo_user_1 }}    ALL=(ALL)       ALL'
+
+
+         - name: Adding {{ sudo_user_2 }} to Sudoers...
+           lineinfile:
+             path: /etc/sudoers
+             line: '{{ item }}'
+             insertafter: ^root(\s+)ALL=\(ALL\)(\s+)ALL
+             validate: visudo -cf %s
+             state: present
+             backup: yes
+           with_items:
+            - '{{ sudo_user_2 }}    ALL=(ALL)       ALL'
+
+
+         - name: Adding {{ sudo_user_3 }} to Sudoers...
+           lineinfile:
+             path: /etc/sudoers
+             line: '{{ item }}'
+             insertafter: ^root(\s+)ALL=\(ALL\)(\s+)ALL
+             validate: visudo -cf %s
+             state: present
+             backup: yes
+           with_items:
+            - '{{ sudo_user_3 }}    ALL=(ALL)       ALL'
+
+

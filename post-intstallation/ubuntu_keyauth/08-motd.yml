@@ -1,0 +1,23 @@
+# Adding message to motd
+#
+#
+
+#        - name: Adding login Message of the Day...
+#          lineinfile:
+#            dest: /etc/motd
+#            line: With Great Power Comes Great Responsibility.
+
+
+
+        - name: Adding login Message of the Day...
+          lineinfile:
+             dest: /etc/update-motd.d/00-header
+             line: 'printf "With Great Power Comes Great Responsibility."'
+             insertafter: EOF
+#        - name: Coping motd file                #Specific to ubuntu
+#          copy:
+#            src: files/motd.txt
+#            dest: /home/ubuntu
+#        - name: Pasting motd message to /etc/update-motd.d/00-header    #Specific to ubuntu
+#          shell: echo "$(</home/ubuntu/motd.txt)" >> /etc/update-motd.d/00-header
+

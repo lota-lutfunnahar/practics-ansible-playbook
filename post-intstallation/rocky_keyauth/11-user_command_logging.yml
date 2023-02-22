@@ -1,0 +1,55 @@
+# User command logging
+#
+#
+      
+#        - name: Copingy Export command file            #Specific to Centos
+#          copy:
+#            src: files/export_command.txt
+#            dest: /home/centos
+
+
+        - name: Copingy Export command file             #Specific to Rocky
+          copy:
+            src: files/export_command.txt
+            dest: /home/rocky
+
+
+        - name: Export option to /etc/bashrc
+#          shell: echo "$(</home/centos/export_command.txt)" >> /etc/bashrc
+          shell: echo "$(</home/rocky/export_command.txt)" >> /etc/bashrc
+
+
+        - name: Setting Syslogger...
+          lineinfile: 
+             path: /etc/rsyslog.conf
+             line: '{{ item }}'
+             insertafter: 'local7'
+             state: present
+          with_items: 
+             - 'local6.*                                                /var/log/commands.log'
+             - '#User command logging'
+             - ' '
+
+
+        - name: Adding Command log file in /var/log     #Specific to Rocky
+          lineinfile:
+             path: /etc/logrotate.d/rsyslog
+             line: '/var/log/commands.log'
+             insertbefore: '}'
+             state: present
+
+
+
+#        - name: Adding Command log file in /var/log    #Specific to Centos
+#          lineinfile:
+#             path: /etc/logrotate.d/syslog
+#             line: '/var/log/commands.log'
+#             insertbefore: '}'
+#             state: present
+
+
+        - name: Restarting syslog Service
+          service:
+             name: rsyslog
+             state: restarted
+             enabled: yes

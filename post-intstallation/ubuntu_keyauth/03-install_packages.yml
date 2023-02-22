@@ -1,0 +1,65 @@
+# Install basic packages
+#
+#
+
+#   - name: installng centos initial packages...
+#      yum:
+#        name: "{{ item }}"
+#        state: latest
+#     loop:
+#        - net-tools
+#        - vim
+#        - nano
+#        - wget
+#        - epel-release         
+#        - mlocate
+#        - ntpdate               
+#        - zabbix-agent
+#        - sysstat
+
+
+#  - name: installng rocky initial packages...
+#     yum:
+#        name: "{{ item }}"
+#        state: latest
+#     loop:
+#        - net-tools
+#        - vim
+#        - nano
+#        - wget
+#        - epel-release        
+#        - mlocate
+#        - zabbix-agent
+#        - sysstat
+
+
+#################################### Ubuntu ######################
+#
+#
+   - name: Fetching Zabbix-agent repository...
+     get_url:
+        url: https://repo.zabbix.com/zabbix/5.0/ubuntu/pool/main/z/zabbix-release/zabbix-release_5.0-2%2Bubuntu22.04_all.deb
+        dest: /home/ubuntu
+
+   - name: Installing debian repository...
+     shell: dpkg -i zabbix-release_5.0-2%2Bubuntu22.04_all.deb
+
+   - name: Updating apt...
+     shell: apt update
+
+   - name: installng ubuntu initial packages...
+     apt:
+        name: "{{ item }}"
+        state: latest
+     loop:
+        - net-tools
+        - vim
+        - nano
+        - wget
+        - mlocate
+        - zabbix-agent
+        - sysstat
+        - python3-apt
+
+
+####################################

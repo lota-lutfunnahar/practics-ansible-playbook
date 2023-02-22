@@ -1,0 +1,17 @@
+# Final Server Reboot and Acknowledgement
+
+        - name: Finalizing Everything ...
+          reboot:
+            msg: The server is rebooting
+            connect_timeout: 5
+            reboot_timeout: 50
+            pre_reboot_delay: 5
+            post_reboot_delay: 30
+            test_command: uptime
+
+
+        - name: uptime
+          command: echo -e "Hey, WELCOME! Your Server is Full and Finally Ready to Go on Production"
+          register: output
+
+        - debug: var=output.stdout_lines

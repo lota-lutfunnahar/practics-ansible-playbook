@@ -1,0 +1,18 @@
+# Setup timezone and Sync with ntp
+#
+#
+
+
+   - name: Setting Timezone and NTP Server...
+#     shell: ntpdate asia.pool.ntp.org                  # Specific for centos
+     shell: timedatectl set-ntp true                    # Specific for Rocky
+     
+   - name: Showing Current System Timezone
+     shell: timedatectl
+     register: timedate
+
+#   - debug: msg="{{ timedate.stdout }}"                #does the same like "debug: var:" but doesnt print same as shell rather print side by side 
+   - debug: 
+        var: timedate.stdout_lines
+
+     

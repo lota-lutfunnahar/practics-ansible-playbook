@@ -1,0 +1,9 @@
+# Adding message to motd
+#
+#
+
+        - name: Adding login Message of the Day...
+          lineinfile:
+            dest: /etc/motd
+            line: With Great Power Comes Great Responsibility.
+

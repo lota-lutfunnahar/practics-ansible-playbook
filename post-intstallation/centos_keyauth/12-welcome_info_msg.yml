@@ -1,0 +1,54 @@
+# setting welcome message
+#
+#
+  
+       - name: Coping Welcome info message file
+         copy:
+           src: files/system-info-welcome.sh
+           dest: /home
+          
+
+       - name: Modifying centos bash profile
+         lineinfile:
+            path: '/home/centos/.bash_profile'
+            line: '{{ item }}'
+            insertafter: 'export PATH'
+            state: present
+         with_items:
+           - '/bin/bash /home/system-info-welcome.sh'
+
+
+
+       - name: Modifying {{ username1 }} bash profile 
+         lineinfile: 
+            path: '/home/{{ username1 }}/.bash_profile'
+            line: '{{ item }}'
+            insertafter: 'export PATH'
+            state: present
+         with_items: 
+           - '/bin/bash /home/system-info-welcome.sh'
+           - ' '
+
+
+       - name: Modifying {{ username2 }} bash profile
+         lineinfile:
+            path: '/home/{{ username2 }}/.bash_profile'
+            line: '{{ item }}'
+            insertafter: 'export PATH'
+            state: present
+         with_items:
+           - '/bin/bash /home/system-info-welcome.sh'
+           - ' '
+
+
+       - name: Modifying {{ username3 }} bash profile
+         lineinfile:
+            path: '/home/{{ username3 }}/.bash_profile'
+            line: '{{ item }}'
+            insertafter: 'export PATH'
+            state: present
+         with_items:
+           - '/bin/bash /home/system-info-welcome.sh'
+           - ' '
+
+

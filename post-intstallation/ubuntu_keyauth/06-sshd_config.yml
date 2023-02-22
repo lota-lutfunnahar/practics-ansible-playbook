@@ -1,0 +1,149 @@
+# Change sshd configuration
+#
+#
+
+                                                                
+        - name: Changing SyslogFacility to AUTHPRIV       #This is Specific to Rocky & ubuntu
+          replace:
+            path: /etc/ssh/sshd_config
+            regexp: '#SyslogFacility AUTH'
+            replace: 'SyslogFacility AUTHPRIV'
+            backup: yes
+            validate: sshd -t -f %s
+
+
+        - name: Changing LogLevel to INFO       # Common for all OS
+          replace:
+            path: /etc/ssh/sshd_config
+            regexp: '#LogLevel INFO'
+            replace: 'LogLevel INFO'
+            backup: yes
+            validate: sshd -t -f %s
+
+        - name: Setting PermitRootLogin to NO           #This is Specific to Rocky
+          replace:
+            path: /etc/ssh/sshd_config
+            regexp: '#PermitRootLogin prohibit-password'
+            replace: 'PermitRootLogin no'
+            backup: yes
+            validate: sshd -t -f %s
+                 
+
+#        - name: Setting PermitRootLogin to NO          #This is Specific to Centos
+#          replace:
+#            path: /etc/ssh/sshd_config
+#            regexp: '#PermitRootLogin yes'
+#            replace: 'PermitRootLogin no' 
+#            backup: yes
+#            validate: sshd -t -f %s
+
+
+        - name: Setting  PermitEmptyPasswords NO
+          replace:
+            path: /etc/ssh/sshd_config
+            regexp: '#PermitEmptyPasswords no'
+            replace: 'PermitEmptyPasswords no'
+            backup: yes
+            validate: sshd -t -f %s
+
+
+#        - name: Setting PasswordAuthentication to YES   #This is Specific to Rocky
+#          replace:
+#            path: /etc/ssh/sshd_config
+#            regexp: '#PasswordAuthentication yes'
+#            replace: 'PasswordAuthentication yes'
+#            backup: yes
+#            validate: sshd -t -f %s
+
+
+#        - name: Setting PasswordAuthentication to YES   #This is Specific to ubuntu (disbaled while keyauth)
+#          replace:
+#            path: /etc/ssh/sshd_config
+#            regexp: 'PasswordAuthentication no'
+#            replace: 'PasswordAuthentication yes'
+#            backup: yes
+#            validate: sshd -t -f %s
+
+
+#        - name: Setting PasswordAuthentication to YES       #This is Specific to Centos
+#          replace:
+#            path: /etc/ssh/sshd_config
+#            regexp: '^PasswordAuthentication no'
+#            replace: 'PasswordAuthentication yes'
+#            backup: yes
+#            validate: sshd -t -f %s
+
+
+
+#        - name: Setting ChallengeResponseAuthentication to YES         # This is absent in Rocky
+#          replace:
+#            path: /etc/ssh/sshd_config
+#            regexp: '^ChallengeResponseAuthentication no'
+#            replace: 'ChallengeResponseAuthentication yes'
+#            backup: yes
+#            validate: sshd -t -f %s
+
+
+
+#        - name: Setting X11Forwarding to NO     # This is specific to Rocky
+#          replace:
+#            path: /etc/ssh/sshd_config
+#            regexp: '#X11Forwarding no'
+#            replace: 'X11Forwarding no'
+#            backup: yes
+#            validate: sshd -t -f %s
+
+
+
+        - name: Setting X11Forwarding to NO         #This is Specific to Centos & ubuntu
+          replace:
+            path: /etc/ssh/sshd_config
+            regexp: '^X11Forwarding yes'
+            replace: 'X11Forwarding no'
+            backup: yes
+            validate: sshd -t -f %s
+
+
+        - name: Enabling Print Motd...         #This is Specific to ubuntu
+          replace:
+            path: /etc/ssh/sshd_config
+            regexp: 'PrintMotd no'
+            replace: '#PrintMotd yes'
+            backup: yes
+            validate: sshd -t -f %s
+
+
+        - name: Creating Banner Entry
+          replace:
+            path: /etc/ssh/sshd_config    
+            regexp: '#Banner none'
+            replace: 'Banner          /etc/ssh/hidden.txt'
+            backup: yes
+            validate: sshd -t -f %s
+
+
+#        - name: SSH AllowUsers          # Specific for centos
+#          lineinfile:
+#            path: /etc/ssh/sshd_config
+#            line: 'AllowUsers centos  {{ username1 }} {{ username2 }} {{ username3 }}'
+#            insertafter: 'Banner          /etc/ssh/hidden.txt'
+#            backup: yes
+#            validate: sshd -t -f %s
+
+
+#        - name: SSH AllowUsers          # Specific for rocky
+#          lineinfile:
+#            path: /etc/ssh/sshd_config
+#            line: 'AllowUsers rocky  {{ username1 }} {{ username2 }} {{ username3 }}'
+#            insertafter: 'Banner          /etc/ssh/hidden.txt'
+#            backup: yes
+#            validate: sshd -t -f %s
+
+
+        - name: SSH AllowUsers          # Specific for ubuntu
+          lineinfile:
+            path: /etc/ssh/sshd_config
+            line: 'AllowUsers ubuntu  {{ username1 }} {{ username2 }} {{ username3 }}'
+            insertafter: 'Banner          /etc/ssh/hidden.txt'
+            backup: yes
+            validate: sshd -t -f %s

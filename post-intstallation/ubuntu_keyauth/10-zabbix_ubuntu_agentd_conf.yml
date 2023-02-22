@@ -1,0 +1,67 @@
+# Change zabbix-agent configuration
+#
+#
+
+        - name: Setting Zabbix Server IP
+          replace:
+            path: /etc/zabbix/zabbix_agentd.conf
+            regexp: 'Server=127.0.0.1'
+            replace: 'Server=54.251.193.133'
+            backup: yes
+
+
+        - name: Setting ListenIP=0.0.0.0
+          replace:
+            path: /etc/zabbix/zabbix_agentd.conf
+            regexp: '# ListenIP=0.0.0.0'
+            replace: 'ListenIP=0.0.0.0'
+            backup: yes
+                 
+
+        - name: Setting Zabbix ServerActive IP      
+          replace:
+            path: /etc/zabbix/zabbix_agentd.conf
+            regexp: 'ServerActive=127.0.0.1'
+            replace: 'ServerActive=54.251.193.133' 
+            backup: yes
+
+
+        - name: Hostname for Zabbix Server Listing
+          replace:
+            path: /etc/zabbix/zabbix_agentd.conf
+            regexp: 'Hostname=Zabbix server'
+            replace: 'Hostname={{ zabbix_hostname }}'
+            backup: yes
+
+
+        - name: Setting AllowRoot=1
+          replace:
+            path: /etc/zabbix/zabbix_agentd.conf
+            regexp: '# AllowRoot=0'
+            replace: 'AllowRoot=1'
+            backup: yes
+
+#        - name: Adding a line          # Not required for Ubuntu
+#          lineinfile:
+#            path: /etc/zabbix_agentd.conf
+#            line: 'Include=/etc/zabbix_agentd.conf.d/*.conf'
+#            insertafter: '# Include='
+#            backup: yes
+
+
+#        - name: Creating zabbix_agentd.conf.d Directory in /etc
+#          file: 
+#            path: /etc/zabbix_agentd.conf.d
+#            state: directory
+
+
+        - name: Coping Custom Service Monitoring File...
+          copy:
+            src: files/service_monitoring.conf
+            dest: /etc/zabbix/zabbix_agentd.d
+
+        - name: Restarting zabbix-agent
+          service: 
+             name: zabbix-agent
+             state: restarted
+             enabled: yes

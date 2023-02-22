@@ -1,0 +1,7 @@
+# Change Hostname
+#
+#
+
+         - name: Changing Hostname of the instance...
+           shell: hostnamectl set-hostname "{{ hostname }}"
+

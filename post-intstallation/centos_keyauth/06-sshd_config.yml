@@ -1,0 +1,70 @@
+# Change sshd configuration
+#
+#
+
+
+        - name: Changing LogLevel to INFO
+          replace:
+            path: /etc/ssh/sshd_config
+            regexp: '#LogLevel INFO'
+            replace: 'LogLevel INFO'
+            backup: yes
+            validate: sshd -t -f %s
+                 
+        - name: Setting PermitRootLogin to NO
+          replace:
+            path: /etc/ssh/sshd_config
+            regexp: '#PermitRootLogin yes'
+            replace: 'PermitRootLogin no' 
+            backup: yes
+            validate: sshd -t -f %s
+
+        - name: Setting  PermitEmptyPasswords NO
+          replace:
+            path: /etc/ssh/sshd_config
+            regexp: '#PermitEmptyPasswords no'
+            replace: 'PermitEmptyPasswords no'
+            backup: yes
+            validate: sshd -t -f %s
+
+#        - name: Setting PasswordAuthentication to YES          # by default it is disabled in centos
+#          replace:
+#            path: /etc/ssh/sshd_config
+#            regexp: '^PasswordAuthentication no'
+#            replace: 'PasswordAuthentication yes'
+#            backup: yes
+#            validate: sshd -t -f %s
+
+        - name: Setting ChallengeResponseAuthentication to YES
+          replace:
+            path: /etc/ssh/sshd_config
+            regexp: '^ChallengeResponseAuthentication no'
+            replace: 'ChallengeResponseAuthentication yes'
+            backup: yes
+            validate: sshd -t -f %s
+
+        - name: Setting X11Forwarding to NO
+          replace:
+            path: /etc/ssh/sshd_config
+            regexp: '^X11Forwarding yes'
+            replace: 'X11Forwarding no'
+            backup: yes
+            validate: sshd -t -f %s
+
+        - name: Creating Banner Entry
+          replace:
+            path: /etc/ssh/sshd_config    
+            regexp: '#Banner none'
+            replace: 'Banner          /etc/ssh/hidden.txt'
+            backup: yes
+            validate: sshd -t -f %s
+
+
+        - name: SSH AllowUsers
+          lineinfile:
+            path: /etc/ssh/sshd_config
+            line: 'AllowUsers centos ansible {{ username1 }} {{ username2 }} {{ username3 }} {{ username4 }}'
+            insertafter: 'Banner          /etc/ssh/hidden.txt'
+            backup: yes
+            validate: sshd -t -f %s
+

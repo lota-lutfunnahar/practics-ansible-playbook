@@ -1,0 +1,107 @@
+---
+
+   - name: Post Installation Security Hardening
+     hosts: ansible_clients
+     remote_user: ansible
+     become: true
+     
+     vars_prompt:
+        - name: username1
+          prompt: Enter Username_1
+          private: no
+        
+        - name: password1
+          prompt: Enter Password for Username_1
+          private: yes
+          encrypt: sha512_crypt
+          confirm: yes
+
+        - name: pubkey1
+          prompt: Enter Public Key for username_1
+          private: no 
+
+        - name: username2
+          prompt: Enter Username_2
+          private: no
+
+        - name: password2
+          prompt: Enter Password for Username_2
+          private: yes
+          encrypt: sha512_crypt
+          confirm: yes
+        
+        - name: pubkey2
+          prompt: Enter Public Key for username_2
+          private: no
+
+
+        - name: username3
+          prompt: Enter Username_3
+          private: no
+
+        - name: password3
+          prompt: Enter Password for Username_3
+          private: yes
+          encrypt: sha512_crypt
+          confirm: yes
+
+        - name: pubkey3
+          prompt: Enter Public Key for username_3
+          private: no
+
+
+        - name: username4
+          prompt: Enter Username_4
+          private: no
+
+        - name: password4
+          prompt: Enter Password for Username_4
+          private: yes
+          encrypt: sha512_crypt
+          confirm: yes
+  
+        - name: pubkey4
+          prompt: Enter Public Key for username_4
+          private: no
+
+
+        - name: hostname
+          prompt: Please enter Hostname
+          private: no
+
+        - name: sudo_user_1
+          prompt: Enter SUDO-Username-1
+          private: no
+
+        - name: sudo_user_2
+          prompt: Enter SUDO-Username-2
+          private: no
+
+        - name: sudo_user_3
+          prompt: Enter SUDO-Username-3
+          private: no
+
+        - name: sudo_user_4
+          prompt: Enter SUDO-Username-4
+          private: no
+
+        - name: zabbix_hostname
+          prompt: Enter Hostname to be Identified by Zabbix Server
+          private: no
+                 
+     tasks: 
+
+        - include_tasks: 01-selinux_disable.yml
+        - include_tasks: 02-hostname.yml
+        - include_tasks: 03-install_packages.yml
+        - include_tasks: 04-timezone.yml
+        - include_tasks: 05-a-create_users.yml
+        - include_tasks: 05-x-add_sudo_users.yml
+        - include_tasks: 06-sshd_config.yml
+        - include_tasks: 07-hidden_txt.yml
+        - include_tasks: 08-motd.yml
+        - include_tasks: 10-zabbix_agentd_conf.yml
+        - include_tasks: 11-user_command_logging.yml
+        - include_tasks: 12-welcome_info_msg.yml
+        - include_tasks: 13-restart_sshd.yml
+        - include_tasks: 14-final_acknowledgement.yml

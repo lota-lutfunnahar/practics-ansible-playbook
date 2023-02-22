@@ -1,0 +1,98 @@
+# create users.yml
+#
+#
+        - name: Creating User Account for {{ username1 }}
+          user:
+            name: "{{ username1 }}"
+            shell: /bin/bash
+            create_home: yes
+            password: "{{ password1 }}"
+
+        - name: Expire password and force user to change on first logon
+          shell: passwd -e "{{ username1 }}"
+
+
+
+ 
+        - name: Creating User Account for {{ username2 }}
+          user:
+            name: "{{ username2 }}"
+            shell: /bin/bash
+            create_home: yes
+            password: "{{ password2 }}"
+
+        - name: Expire password and force user to change on first logon
+          shell: passwd -e "{{ username2 }}"
+
+
+
+
+        - name: Creating User Account for {{ username3 }}
+          user:
+            name: "{{ username3 }}"
+            shell: /bin/bash
+            create_home: yes
+            password: "{{ password3 }}"
+
+        - name: Expire password and force user to change on first logon
+          shell: passwd -e "{{ username3 }}"
+
+
+
+
+        - name: Creating User Account for {{ username3 }}
+          user:
+            name: "{{ username4 }}"
+            shell: /bin/bash
+            create_home: yes
+            password: "{{ password4 }}"
+
+        - name: Expire password and force user to change on first logon
+          shell: passwd -e "{{ username4 }}"
+
+
+
+
+        - name: Creating .ssh directory for users
+          file:
+            path: "{{ item }}"
+            state: directory
+          with_items:
+            - '/home/{{ username1 }}/.ssh'
+            - '/home/{{ username2 }}/.ssh'
+            - '/home/{{ username3 }}/.ssh'
+            - '/home/{{ username4 }}/.ssh'
+
+
+        - name: Creating authorized_keys files for users...
+          file:
+            path: "/home/{{ item }}/.ssh/authorized_keys"
+            state: touch
+          with_items:
+            - '{{ username1 }}'
+            - '{{ username2 }}'
+            - '{{ username3 }}'
+            - '{{ username4 }}'
+
+
+
+        - name: Adding {{ username1 }} public key...
+          lineinfile:
+            dest: /home/{{ username1 }}/.ssh/authorized_keys
+            line: '{{ pubkey1 }}'
+
+        - name: Adding {{ username2 }} public key...
+          lineinfile:
+            dest: /home/{{ username2 }}/.ssh/authorized_keys
+            line: '{{ pubkey2 }}'
+
+        - name: Adding {{ username3 }} public key...
+          lineinfile:
+            dest: /home/{{ username3 }}/.ssh/authorized_keys
+            line: '{{ pubkey3 }}'
+
+        - name: Adding {{ username4 }} public key...
+          lineinfile:
+            dest: /home/{{ username4 }}/.ssh/authorized_keys
+            line: '{{ pubkey4 }}'
+
