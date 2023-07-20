@@ -1,9 +1,9 @@
-# practics-ansible-playbook
-### test run
+# Practics-ansible-playbook
+### Test run
 
 `ansible-playbook -i vyos.example.net, -u ansible -k -e ansible_network_os=vyos.vyos.vyos first_playbook_ext.yml`
 
-### config setting file 
+### Config setting file 
 `/etc/ansible/hosts`
 
 `[ansible_clients]
@@ -11,7 +11,7 @@
 192.168.10.238 ansible_ssh_pass=arafat ansible_ssh_user=root
 #202.181.14.35 ansible_ssh_pass=ansible ansible_ssh_user=ansible`
 
-### ansible.cfg location
+### Ansible.cfg location
 
 ansible.cfg location is /etc/ansible/ansible.cfg
 
