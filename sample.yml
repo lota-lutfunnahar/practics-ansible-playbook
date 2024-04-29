@@ -1,6 +1,6 @@
 ---
 - name: sample book
-  hosts: ansible_clients
+  hosts: ansible_clients 
   remote_user: test
   become: true
 
