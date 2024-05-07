@@ -7,7 +7,7 @@ ansible-playbook -i vyos.example.net, -u ansible -k -e ansible_network_os=vyos.v
 ```
 
  
-### Config Setting File  
+### Config Setting File   
 /etc/ansible/hosts
 ```
 [ansible_clients]
