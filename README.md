@@ -1,4 +1,4 @@
-## Practics Ansible Playbook 
+## Practics Ansible Playbook  
 ### Test Run         
      
 ```
