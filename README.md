@@ -22,7 +22,7 @@ ansible.cfg location is /etc/ansible/ansible.cfg
 
 ```
 202.181.14.35
-[all:vars]
+[all:vars] 
 ansilble_ssh_pass=ansible
 ansible_become_pass=ansible
 ```
